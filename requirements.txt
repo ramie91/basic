@@ -1,3 +1,4 @@
 Flask
 selenium
 requests
+webdriver-manager

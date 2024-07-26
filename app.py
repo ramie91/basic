@@ -2,6 +2,10 @@ from flask import Flask, render_template, url_for, request, redirect
 import random
 import re
 import time
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime, timedelta
 from selenium.webdriver.common.by import By
 import requests
@@ -104,8 +108,9 @@ def execute_day(ua):
     chrome_options.add_argument("--headless=new")
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
     chrome_options.add_argument(f'user-agent={user_agent}')
-    driver = webdriver.Chrome(options=chrome_options)
-
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     mail = mailgen()
     hashed_email = hash_email(mail)
 
