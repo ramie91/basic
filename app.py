@@ -2,8 +2,6 @@ from flask import Flask, render_template, url_for, request, redirect
 import random
 import re
 import time
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime, timedelta
@@ -12,6 +10,7 @@ import requests
 from selenium import webdriver
 import hashlib
 import json
+
 
 app = Flask(__name__)
 isWeek = True
@@ -103,7 +102,7 @@ def execute_week(ua):
         print("Balise img du QR code non trouvÃ©e.")
 
 
-def execute_day(ua):
+def execute_day(ua,nom,prenom):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless=new")
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
@@ -119,8 +118,8 @@ def execute_day(ua):
     time.sleep(3)
     BoxS = driver.find_element(By.XPATH, '//*[@id="genderForm"]/div[2]/label[1]').click()
     BoxDOB = driver.find_element(By.XPATH, '//*[@id="birthdate"]').send_keys("01-01-2000")
-    BoxName = driver.find_element(By.XPATH, '//*[@id="firstname"]').send_keys(namegen())
-    BoxName2 = driver.find_element(By.XPATH, '//*[@id="lastname"]').send_keys(namegen())
+    BoxName = driver.find_element(By.XPATH, '//*[@id="firstname"]').send_keys(nom)
+    BoxName2 = driver.find_element(By.XPATH, '//*[@id="lastname"]').send_keys(prenom)
     BoxMail = driver.find_element(By.XPATH, '//*[@id="email"]').send_keys(mail)
     BoxCGV = driver.find_element(By.XPATH, '//*[@id="j_id0:j_id2:opt2"]/div/label').click()
     BoxSend = driver.find_element(By.XPATH, '//*[@id="signup"]/div[3]/button').click()
@@ -146,8 +145,8 @@ def execute_day(ua):
 
         if match:
             src_value = match.group(1)
-            save_visitor_info(ua, src_value, "day", src_value)
-            return (src_value)
+            save_visitor_info(ua, src_value, "day", nom, prenom, src_value)
+            return src_value
 
 
 
@@ -155,7 +154,7 @@ def execute_day(ua):
         print("Balise img du QR code non trouvÃ©e.")
 
 
-def save_visitor_info(user_agent, link, type_qr, image_tag=None, additional_data=None):
+def save_visitor_info(user_agent, link, type_qr, nom, prenom, image_tag=None, additional_data=None):
     """Sauvegarde les informations du visiteur dans le fichier approprié."""
 
     try:
@@ -176,6 +175,8 @@ def save_visitor_info(user_agent, link, type_qr, image_tag=None, additional_data
         "user_agent": user_agent,
         "link": link,
         "image_tag": image_tag,
+        "Nom": nom,
+        "Prenom": prenom,
         "duree": type_qr
     }
     if additional_data:
@@ -220,7 +221,13 @@ def result_week():
 @app.route('/result_day', methods=['POST', 'GET'])
 def result_day():
     user_agent = request.headers.get('User-Agent')
-    return render_template('index.html', link=execute_day(user_agent), isWeek=False, isDay=True)
+    nom = namegen()
+    prenom = namegen()
+    if request.form['prenom'] != "":
+        prenom = request.form['prenom']
+    if request.form['nom'] != "":
+        nom = request.form['nom']
+    return render_template('index.html', link=execute_day(user_agent,nom,prenom), isWeek=False, isDay=True)
 
 
 @app.route('/history')
@@ -341,5 +348,5 @@ def use_drink(qr_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=True)
 

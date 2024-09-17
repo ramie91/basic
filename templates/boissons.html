@@ -1,40 +1,43 @@
+<link rel="stylesheet" type="text/css" href="../static/index.css">
+<link rel="icon" href="{{ url_for('static', filename='images.ico') }}" type="image/x-icon">
 <h2>QR Codes Utilisés pour les Boissons</h2>
-
 <table class="history-table">
-    <tr>
-        <th>ID</th>
-        <th>Timestamp</th>
-        <th>User Agent</th>
-        <th>Lien</th>
-        <th>Image QR</th>
-        <th>Essais Restants</th>
-        <th>Action</th>
-    </tr>
-    {% for data in used_entries %}
-    <tr>
-        <td>{{ data.id }}</td>
-        <td>{{ data.timestamp }}</td>
-        <td>{{ data.user_agent }}</td>
-        <td><a href="{{ data.link }}">{{ data.link }}</a></td>
-        <td>{% if data.image_tag %}
-                        <img src="{{ data.image_tag | safe }}">
-                    {% else %}
-                        Aucune image
-                    {% endif %}
-        </td>
-        <td>{{ data.essais_restants }}</td>
-        <td>
-            {% if data.essais_restants > 0 %}
-                <form action="/use_drink/{{ data.id }}" method="POST">
-                    <button type="submit">Utiliser un essai</button>
-                </form>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
+   <tr>
+      <th>ID</th>
+      <th>Timestamp</th>
+      <th>User Agent</th>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Lien</th>
+      <th>Image QR</th>
+      <th>Essais Restants</th>
+      <th>Action</th>
+   </tr>
+   {% for data in used_entries %}
+   <tr>
+      <td>{{ data.id }}</td>
+      <td>{{ data.timestamp }}</td>
+      <td>{{ data.user_agent }}</td>
+      <td>{{ data.Nom }}</td>
+      <td>{{ data.Prenom }}</td>
+      <td><a href="{{ data.link }}">{{ data.link }}</a></td>
+      <td>{% if data.image_tag %}
+         <img src="{{ data.image_tag | safe }}">
+         {% else %}
+         Aucune image
+         {% endif %}
+      </td>
+      <td>{{ data.essais_restants }}</td>
+      <td>
+         {% if data.essais_restants > 0 %}
+         <form action="/use_drink/{{ data.id }}" method="POST">
+            <button type="submit">Utiliser un essai</button>
+         </form>
+         {% endif %}
+      </td>
+   </tr>
+   {% endfor %}
 </table>
-
-
 <a href="/home">Return To Home</a>
 <a href="/history">Historique des liens</a>
 <a href="/boissons">Boissons Disponible</a>
