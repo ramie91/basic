@@ -1,0 +1,98 @@
+
+<html> 
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" type="text/css" href="../static/index.css"> 
+
+
+
+
+	</head>
+	
+	<body>
+      {% if isWeek %}
+        <form class="grid" action="/result_week" method="POST">
+
+
+
+          <label for="name">Press To generate a 2 week qr code:</label>
+
+          {% if not link %}
+           <center><input class="file_submit" type="Submit" disabled></center>
+          {% endif %}
+            {% if link %}
+            <center>
+              <h3 style="color: blue;" class="let_space"><a href="{{ link }}">{{link}}</a></h3>
+              <img src="{{ link }}">
+            </center>
+
+          {% endif %}
+        </form>
+      {% endif %}
+      {% if isDay %}
+        <form class="grid" action="/result_day" method="POST">
+
+
+
+          <label for="name">Press To generate a day pass qr code:</label>
+          {% if not link %}
+           <center><input class="file_submit" type="Submit"></center>
+          {% endif %}
+            {% if link %}
+            <center>
+              <h3 style="color: blue;" class="let_space"><a href="{{ link }}">{{link}}</a></h3>
+              <img src="{{ link }}">
+            </center>
+
+          {% endif %}
+        </form>
+      {% endif %}
+
+	  {% if not isWeek and not isDay %}  <h2>Historique des Visiteurs</h2>
+        <table class="history-table">  <tr>
+                <th>ID</th>
+                <th>Timestamp</th>
+                <th>User Agent</th>
+                <th>Lien</th>
+                <th>Image QR</th>
+				<th>Durée</th></tr>
+                <th>Action</th>
+            {% for data in visitor_data %}
+            <tr>
+                <td>{{ data.id }}</td>
+                <td>{{ data.timestamp }}</td>
+                <td>{{ data.user_agent }}</td>
+                <td><a href="{{ data.link }}">{{ data.link }}</a></td>
+                <td>{% if data.image_tag %}
+                        <img src="{{ data.image_tag | safe }}">
+                    {% else %}
+                        Aucune image
+                    {% endif %}
+                </td>
+				<td>{{ data.duree }}</td>
+                <td>
+                {% if data.duree == "day" %}  <form action="/mark_used/{{ data.id }}" method="POST">
+                        <button type="submit">Utilisé</button>
+                    </form>
+                {% endif %}
+                </td>
+				</tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+      <a href="/home">Return To Home</a>
+	  <a href="/history">Historique des liens</a>
+      <a href="/boissons">Boissons Disponible</a>
+        
+
+        
+        <br>
+        <br>
+        <br>
+
+
+    </body>
+
+</html>

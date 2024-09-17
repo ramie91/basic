@@ -1,0 +1,77 @@
+/* Couleurs principales de Basic-Fit */
+:root {
+  --primary-orange: #f05a28;   /* Orange primaire */
+  --secondary-blue: #264653; /* Bleu secondaire (utilisé pour le texte) */
+  --accent-yellow: #ffd700;  /* Jaune accent */
+  --light-gray: #f4f4f4;     /* Gris clair (arrière-plan) */
+  --dark-gray: #333333;      /* Gris foncé */
+}
+
+/* Utilisation d'une police Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--light-gray);
+  color: var(--dark-gray);
+  text-align: center;
+}
+
+.container {
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+h2 {
+  color: black;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+/* Styles pour le tableau */
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 0.9em;
+}
+
+.history-table th,
+.history-table td {
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid black;
+}
+
+.history-table th {
+  background-color: transparent;
+  font-weight: bold;
+  color: var(--secondary-blue);
+}
+
+/* Style pour les liens */
+a {
+    color: var(--primary-orange);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Style pour les boutons "Utiliser un essai" */
+button[type="submit"] {
+  background-color: var(--primary-orange);
+  color: white;
+  padding: 8px 16px; /* Padding légèrement réduit */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+}
