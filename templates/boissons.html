@@ -1,3 +1,26 @@
+<link rel="stylesheet" type="text/css" href="../static/index.css">
+<link rel="icon" href="{{ url_for('static', filename='images.ico') }}" type="image/x-icon">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Basic-Fit QR-Code-Gen</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/history">Historique Des Visiteurs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/get_boisson_image">Boissons</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <h2>QR Codes Utilisés pour les Boissons</h2>
 
 <table class="history-table">
@@ -5,6 +28,8 @@
         <th>ID</th>
         <th>Timestamp</th>
         <th>User Agent</th>
+        <th>Nom</th>
+        <th>Prénom</th>
         <th>Lien</th>
         <th>Image QR</th>
         <th>Essais Restants</th>
@@ -15,6 +40,8 @@
         <td>{{ data.id }}</td>
         <td>{{ data.timestamp }}</td>
         <td>{{ data.user_agent }}</td>
+        <td>{{ data.Nom }}</td>
+        <td>{{ data.Prenom }}</td>
         <td><a href="{{ data.link }}">{{ data.link }}</a></td>
         <td>{% if data.image_tag %}
                         <img src="{{ data.image_tag | safe }}">

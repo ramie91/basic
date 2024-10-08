@@ -2,8 +2,6 @@ from flask import Flask, render_template, url_for, request, redirect
 import random
 import re
 import time
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime, timedelta
@@ -21,8 +19,8 @@ isDay = True
 def get_domain():
     url2 = "https://privatix-temp-mail-v1.p.rapidapi.com/request/domains/"
     headers = {
-        "x-rapidapi-key": "19b9106aa4mshe95c96af81febf8p1d5d13jsn092fdba44b4a",
-        "x-rapidapi-host": "privatix-temp-mail-v1.p.rapidapi.com"
+    	'x-rapidapi-key': "289c9da465mshccf2c0d825a384ap19abaajsn7d24fb64b295",
+    	'x-rapidapi-host': "privatix-temp-mail-v1.p.rapidapi.com"
     }
     response2 = requests.get(url2, headers=headers)
     type(response2.json())
@@ -38,6 +36,14 @@ def mailgen():
     return mail
 
 
+def link_boisson_gen():
+    link = "https://basic-fit-qr-code-generator.herokuapp.com/create-qr-code?data=V000"
+    numbers = ("0123456789")
+    millieu = "".join(random.sample(numbers, 6))
+    link_final = link + str(millieu)
+    return link_final
+    
+
 def namegen():
     letter = ("abcdefghijklmnopqrstuvwxyz")
     millieu = "".join(random.sample(letter, 13))
@@ -52,33 +58,34 @@ def hash_email(email):
     return md5_hash.hexdigest()  # Obtenir le hachage en format hexadécimal
 
 
-def execute_week(ua):
+def execute_week(ua,nom,prenom):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless=new")
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
     chrome_options.add_argument(f'user-agent={user_agent}')
-    driver = webdriver.Chrome(options=chrome_options)
-
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     mail = mailgen()
     hashed_email = hash_email(mail)
 
-    driver.get('https://member.basic-fit.com/fr-FR/signup/FitTogether')
+    driver.get(
+        'https://amigos.basic-fit.com/register?sig=eb13261d3788ee141c96dd065e78c7dd4d61b6adf42497fb0f648cbbc1f4faf9&id=001R6000002Hbq1IAC&campaign=701R6000002HbhyIAC&utm_id=b3f2de58-8206-40ac-b3de-a37f3a0f8e11&sfmc_id=220296788&sfmc_activityid=ecfebade-1f92-4e07-a413-ed832b598534')
     time.sleep(3)
-    BoxP = driver.find_element(By.XPATH, '/html/body/div[1]/div/main/div/div/div[2]/a').click()
-    time.sleep(3)
-    BoxDOB = driver.find_element(By.XPATH, '//*[@id=":Rqilttsrrla:"]').send_keys("01012000")
-    BoxName = driver.find_element(By.XPATH, '//*[@id=":Railttsrrla:"]').send_keys(namegen())
-    BoxName2 = driver.find_element(By.XPATH, '//*[@id=":Riilttsrrla:"]').send_keys(namegen())
-    BoxMail = driver.find_element(By.XPATH, '//*[@id=":R1ailttsrrla:"]').send_keys(mail)
-    BoxCGV = driver.find_element(By.XPATH, '//*[@id=":Rjilttsrrla:"]').click()
-    BoxSend = driver.find_element(By.XPATH, '/html/body/div[1]/div/main/div/div/div/form/button').click()
+    BoxS = driver.find_element(By.XPATH, '//*[@id="genderForm"]/div[2]/label[1]').click()
+    BoxDOB = driver.find_element(By.XPATH, '//*[@id="birthdate"]').send_keys("01-01-2000")
+    BoxName = driver.find_element(By.XPATH, '//*[@id="firstname"]').send_keys(nom)
+    BoxName2 = driver.find_element(By.XPATH, '//*[@id="lastname"]').send_keys(prenom)
+    BoxMail = driver.find_element(By.XPATH, '//*[@id="email"]').send_keys(mail)
+    BoxCGV = driver.find_element(By.XPATH, '//*[@id="j_id0:j_id2:opt2"]/div/label').click()
+    BoxSend = driver.find_element(By.XPATH, '//*[@id="signup"]/div[3]/button').click()
 
     time.sleep(10)
     driver.quit()
     url = "https://privatix-temp-mail-v1.p.rapidapi.com/request/mail/id/" + hashed_email + "/"
     headers = {
-        "x-rapidapi-key": "19b9106aa4mshe95c96af81febf8p1d5d13jsn092fdba44b4a",
-        "x-rapidapi-host": "privatix-temp-mail-v1.p.rapidapi.com"
+    	'x-rapidapi-key': "289c9da465mshccf2c0d825a384ap19abaajsn7d24fb64b295",
+    	'x-rapidapi-host': "privatix-temp-mail-v1.p.rapidapi.com"
     }
 
     response = requests.get(url, headers=headers)
@@ -94,8 +101,8 @@ def execute_week(ua):
 
         if match:
             src_value = match.group(1)
-            save_visitor_info(ua, src_value, "week", src_value)
-            return src_value
+            save_visitor_info(ua, src_value, "day NL", nom, prenom, src_value)
+            return (src_value)
 
 
 
@@ -103,7 +110,7 @@ def execute_week(ua):
         print("Balise img du QR code non trouvÃ©e.")
 
 
-def execute_day(ua):
+def execute_day(ua,nom,prenom):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless=new")
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
@@ -119,8 +126,8 @@ def execute_day(ua):
     time.sleep(3)
     BoxS = driver.find_element(By.XPATH, '//*[@id="genderForm"]/div[2]/label[1]').click()
     BoxDOB = driver.find_element(By.XPATH, '//*[@id="birthdate"]').send_keys("01-01-2000")
-    BoxName = driver.find_element(By.XPATH, '//*[@id="firstname"]').send_keys(namegen())
-    BoxName2 = driver.find_element(By.XPATH, '//*[@id="lastname"]').send_keys(namegen())
+    BoxName = driver.find_element(By.XPATH, '//*[@id="firstname"]').send_keys(nom)
+    BoxName2 = driver.find_element(By.XPATH, '//*[@id="lastname"]').send_keys(prenom)
     BoxMail = driver.find_element(By.XPATH, '//*[@id="email"]').send_keys(mail)
     BoxCGV = driver.find_element(By.XPATH, '//*[@id="j_id0:j_id2:opt2"]/div/label').click()
     BoxSend = driver.find_element(By.XPATH, '//*[@id="signup"]/div[3]/button').click()
@@ -129,8 +136,8 @@ def execute_day(ua):
     driver.quit()
     url = "https://privatix-temp-mail-v1.p.rapidapi.com/request/mail/id/" + hashed_email + "/"
     headers = {
-        "x-rapidapi-key": "19b9106aa4mshe95c96af81febf8p1d5d13jsn092fdba44b4a",
-        "x-rapidapi-host": "privatix-temp-mail-v1.p.rapidapi.com"
+    	'x-rapidapi-key': "289c9da465mshccf2c0d825a384ap19abaajsn7d24fb64b295",
+    	'x-rapidapi-host': "privatix-temp-mail-v1.p.rapidapi.com"
     }
 
     response = requests.get(url, headers=headers)
@@ -146,7 +153,7 @@ def execute_day(ua):
 
         if match:
             src_value = match.group(1)
-            save_visitor_info(ua, src_value, "day", src_value)
+            save_visitor_info(ua, src_value, "day", nom, prenom, src_value)
             return (src_value)
 
 
@@ -155,7 +162,7 @@ def execute_day(ua):
         print("Balise img du QR code non trouvÃ©e.")
 
 
-def save_visitor_info(user_agent, link, type_qr, image_tag=None, additional_data=None):
+def save_visitor_info(user_agent, link, type_qr, nom, prenom, image_tag=None, additional_data=None):
     """Sauvegarde les informations du visiteur dans le fichier approprié."""
 
     try:
@@ -176,6 +183,8 @@ def save_visitor_info(user_agent, link, type_qr, image_tag=None, additional_data
         "user_agent": user_agent,
         "link": link,
         "image_tag": image_tag,
+        "Nom": nom,
+        "Prenom": prenom,
         "duree": type_qr
     }
     if additional_data:
@@ -188,6 +197,7 @@ def save_visitor_info(user_agent, link, type_qr, image_tag=None, additional_data
             f.write("\n")  # Ajoute une nouvelle ligne pour séparer les entrées
     except Exception as e:
         print(f"Erreur lors de la sauvegarde des données : {e}")
+
 
 
 def display_visitor_info():
@@ -214,13 +224,25 @@ def home():
 @app.route('/result_week', methods=['POST', 'GET'])
 def result_week():
     user_agent = request.headers.get('User-Agent')
-    return render_template('index.html', link=execute_week(user_agent), isDay=False, isWeek=True)
+    nom = namegen()
+    prenom = namegen()
+    if request.form['prenom'] != "":
+        prenom = request.form['prenom']
+    if request.form['nom'] != "":
+        nom = request.form['nom']
+    return render_template('index.html', link=execute_week(user_agent,nom,prenom), isDay=False, isWeek=True)
 
 
 @app.route('/result_day', methods=['POST', 'GET'])
 def result_day():
     user_agent = request.headers.get('User-Agent')
-    return render_template('index.html', link=execute_day(user_agent), isWeek=False, isDay=True)
+    nom = namegen()
+    prenom = namegen()
+    if request.form['prenom'] != "":
+        prenom = request.form['prenom']
+    if request.form['nom'] != "":
+        nom = request.form['nom']
+    return render_template('index.html', link=execute_day(user_agent,nom,prenom), isWeek=False, isDay=True)
 
 
 @app.route('/history')
@@ -299,7 +321,12 @@ def mark_used(qr_id):
     except Exception as e:
         return f"Erreur: {e}"
 
-
+@app.route('/get_boisson_image', methods=['POST', 'GET'])
+def boisson_affiche():
+    if request.method == 'POST':
+        link = link_boisson_gen()
+        return render_template('boissonNew.html', link=link, isGen=True)
+    return render_template('boissonNew.html', isGen=False)
 
 @app.route('/boissons')
 def boissons():
@@ -341,5 +368,5 @@ def use_drink(qr_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port=80,debug=True,)
 

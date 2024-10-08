@@ -10,10 +10,15 @@
 /* Utilisation d'une police Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
+html{
+  height: 100%;
+}
+
 body {
   font-family: 'Montserrat', sans-serif; /* Police moderne et lisible */
   margin: 0;
   padding: 0;
+  height: 100%;
   background: linear-gradient(to bottom, #f5824d, #f05a28);
   color: var(--dark-gray);
   text-align: center; /* Centrage général du texte */
@@ -127,4 +132,5 @@ img {
 a:hover {
     text-decoration: underline;
 }
+
 
