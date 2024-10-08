@@ -84,8 +84,23 @@
                 <td>{{ data.Nom }}</td>
                 <td>{{ data.Prenom }}</td>
                 <td><a href="{{ data.link }}">Lien</a></td>
-                <td>{% if data.image_tag %}
-                    <img src="{{ data.image_tag | safe }}">
+                <td>
+                    {% if data.image_tag %}
+                    <img src="{{ data.image_tag | safe }}" data-bs-toggle="modal" data-bs-target="#qrModal-{{ data.id }}" style="cursor: pointer; width: 100px;">
+                    <!-- Modal -->
+                    <div class="modal fade" id="qrModal-{{ data.id }}" tabindex="-1" aria-labelledby="qrModalLabel-{{ data.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="qrModalLabel-{{ data.id }}">QR Code</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ data.image_tag | safe }}" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% else %}
                     Aucune image
                     {% endif %}
