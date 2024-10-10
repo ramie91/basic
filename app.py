@@ -2,6 +2,8 @@ from flask import Flask, render_template, url_for, request, redirect
 import random
 import re
 import time
+from webdriver_manager.core.utils import read_version_from_cmd 
+from webdriver_manager.core.os_manager import PATTERN
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime, timedelta
@@ -9,11 +11,28 @@ from selenium.webdriver.common.by import By
 import requests
 from selenium import webdriver
 import hashlib
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromiumService
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
 import json
+import asyncio
+from pyppeteer import launch
 
 app = Flask(__name__)
 isWeek = True
 isDay = True
+
+async def get_chromium_path():
+    # Télécharger Chromium si nécessaire et récupérer son chemin
+    browser = await launch(headless=True)
+    chromium_path = browser.process.args[0]  # Récupérer le chemin de l'exécutable
+    await browser.close()
+    return chromium_path
+
+# Utiliser asyncio pour exécuter la fonction
+chromium_path = asyncio.run(get_chromium_path())
+print(chromium_path)
 
 
 def get_domain():
@@ -60,6 +79,8 @@ def hash_email(email):
 
 def execute_week(ua,nom,prenom):
     chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = chromium_path 
+    
     chrome_options.add_argument("--headless=new")
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
     chrome_options.add_argument(f'user-agent={user_agent}')
@@ -112,12 +133,15 @@ def execute_week(ua,nom,prenom):
 
 def execute_day(ua,nom,prenom):
     chrome_options = webdriver.ChromeOptions()
+    path = "/Users/ramie/Library/Application\ Support/pyppeteer/local-chromium/1181205/chrome-mac/Chromium.app/Contents/MacOS/Chromium --version"
+    #version = read_version_from_cmd(path,pattern=[CHROME])
+    chrome_options.binary_location = chromium_path 
     chrome_options.add_argument("--headless=new")
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
     chrome_options.add_argument(f'user-agent={user_agent}')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    driver = webdriver.Chrome(service=ChromiumService(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()))
     mail = mailgen()
     hashed_email = hash_email(mail)
 
