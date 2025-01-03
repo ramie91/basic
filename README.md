@@ -29,7 +29,7 @@ Malgré la désactivation de la génération de Day Pass, le site propose toujou
    ```
 2. Installez les dépendances :  
    ```bash
-   pip -r requirements.txt
+   pip install -r requirements.txt
    ```
 3. Lancez l'application :  
    ```bash
