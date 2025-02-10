@@ -21,6 +21,8 @@ app = Flask(__name__)
 isWeek = True
 isDay = True
 
+
+
 def get_domain():
     url2 = "https://privatix-temp-mail-v1.p.rapidapi.com/request/domains/"
     headers = {
@@ -118,17 +120,86 @@ def execute_week(ua,nom,prenom):
 
 
 def execute_day(ua,nom,prenom):
+    url = "https://member.basic-fit.com/api/signUpForm/signUp"
+    mail = mailgen()
+    payload = {
+        "firstName": "aaa",
+        "lastName": "aa",
+        "email": mail,
+        "locale": "fr-FR",
+        "dateOfBirth": "2005-10-10T00:00:00.000Z",
+        "promotions": True,
+        "tos": True,
+        "campaignId": "2Hl7qICv6IYQIWyHqWQou0"
+    }
+
+    headers = {
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9,fr;q=0.8",
+        "Content-Type": "application/json",
+        "Origin": "https://member.basic-fit.com",
+        "Referer": "https://member.basic-fit.com/fr-FR/signup/ValentinesDay_2025_Daypass",
+        "Sec-Ch-Ua": '"Not A(Brand";v="8", "Chromium";v="132"',
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": '"macOS"',
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+        "DNT": "1",
+        "Priority": "u=1, i"
+    }
+
+    cookies = {
+        "FPID": "FPID2.2.J7aVDG247PE618tbiawuU3Jmz2Kxc8d0DpG10yKdzw4%3D.1720734771",
+        "_scid": "0d25c416-d5c2-4f57-a24e-b90db0df8ff6",
+        "bf-country": "FR"
+        # Ajoute d'autres cookies ici si nécessaire
+    }
+
+    response = requests.post(url, json=payload, headers=headers, cookies=cookies)
+    print(response.status_code)
+    print(response.text)
+    time.sleep(5)
+    hashed_email = hash_email(mail)
+    url = "https://privatix-temp-mail-v1.p.rapidapi.com/request/mail/id/" + hashed_email + "/"
+    headers = {
+    	'x-rapidapi-key': "fb2313f171msh26fa22f8bbc3988p1f5d0bjsn655962b30059",
+    	'x-rapidapi-host': "privatix-temp-mail-v1.p.rapidapi.com"
+    }
+
+    response = requests.get(url, headers=headers)
+    print(response.text)
+    pattern = r'<img alt="Basic Fit" border="0" src="https://basic-fit-qr-code-generator\.herokuapp\.com/create-qr-code\?data=[^"]+" style="display: block;max-width: 100%;" width="400">'
+
+    # Recherche dans le mail_html du premier dictionnaire
+    match = re.search(pattern, response.json()[0]['mail_html'])
+
+    if match:
+        qr_code_img = match.group()  # RÃ©cupÃ©rer le texte correspondant
+        pattern = r'src="([^"]*)"'
+        match = re.search(pattern, qr_code_img)
+
+        if match:
+            src_value = match.group(1)
+            save_visitor_info(ua, src_value, "day", nom, prenom, src_value)
+            return (src_value)
+
+
+
+    else:
+        print("Balise img du QR code non trouvÃ©e.")
+        
+def execute_day2(ua,nom,prenom):
     chrome_options = webdriver.ChromeOptions()
-    #path = "/Users/ramie/Library/Application\ Support/pyppeteer/local-chromium/1181205/chrome-mac/Chromium.app/Contents/MacOS/Chromium --version"
     #version = read_version_from_cmd(path,pattern=[CHROME])
-    #chrome_options.binary_location = chromium_path 
+    chrome_options.binary_location = chromium_path 
     chrome_options.add_argument("--headless=new")
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
     chrome_options.add_argument(f'user-agent={user_agent}')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-    #driver = webdriver.Chrome(service=ChromiumService(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()))
+    driver = webdriver.Chrome(service=ChromiumService(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()))
     mail = mailgen()
     hashed_email = hash_email(mail)
 
