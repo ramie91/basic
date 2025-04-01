@@ -26,7 +26,7 @@ isDay = True
 def get_domain():
     url2 = "https://privatix-temp-mail-v1.p.rapidapi.com/request/domains/"
     headers = {
-    	'x-rapidapi-key': "289c9da465mshccf2c0d825a384ap19abaajsn7d24fb64b295",
+    	'x-rapidapi-key': "YOUR-API-KEY",
     	'x-rapidapi-host': "privatix-temp-mail-v1.p.rapidapi.com"
     }
     response2 = requests.get(url2, headers=headers)
