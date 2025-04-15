@@ -449,6 +449,10 @@ def use_drink(qr_id):
         return f"Erreur: {e}"
 
 
+@app.route('/app')
+def appGen():
+    return render_template("qrAppGen.html")
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=80,debug=True,)
 

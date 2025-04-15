@@ -13,7 +13,9 @@
 html{
   height: 100%;
 }
-
+div{
+  color: var(--primary-orange);
+}
 body {
   font-family: 'Montserrat', sans-serif; /* Police moderne et lisible */
   margin: 0;

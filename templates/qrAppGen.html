@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App</title>
+    <link rel="icon" href="{{ url_for('static', filename='images.ico') }}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/app.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='apple-touch-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='apple-touch-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='apple-touch-icon-167x167.png') }}">
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Basic-Fit QR-Code-Gen</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/history">Historique Des Visiteurs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/get_boisson_image">Boissons</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/app">App</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<body>
+<div class="container text-center mt-5 bg-transparent">
+    <h2>Générer un QR-Code App</h2>
+    <div class="input-group mb-3">
+        <input type="text" id="success" class="form-control" placeholder="Numéro de Carte" aria-label="Numéro de Carte" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button id="generateBtn" class="btn btn-outline-secondary bg-secondary text-white" type="button">Générer</button>
+        </div>
+      </div>
+    <div id="qrCodeContainer" class="mt-4" style="display: none;">
+        <h3>Votre QR-Code :</h3>
+        <img id="qrCodeImage" src="" alt="Boisson QR Code" class="img-fluid">
+    </div>
+</div>
+
+<script>
+    function generateQRCodeLink() {
+        var temp = document.getElementById("success").value
+        const baseURL = "https://basic-fit-qr-code-generator.herokuapp.com/create-qr-code?data=";
+        const baseText = "GM2:"+ temp +":BPZ:";
+        const endText =  ":95A5CAF2";
+        let randomPart = Date.now();
+        const finish =  baseText + randomPart + endText;
+        return baseURL + finish
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+        const qrCodeLink = generateQRCodeLink();
+        const qrCodeImage = document.getElementById('qrCodeImage');
+        qrCodeImage.src = qrCodeLink;
+        document.getElementById('qrCodeContainer').style.display = 'block';
+    });
+</script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

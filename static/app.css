@@ -1,0 +1,138 @@
+/* Couleurs principales de Basic-Fit */
+:root {
+    --primary-orange: #f05a28;   /* Orange primaire */
+    --secondary-blue: #264653; /* Bleu secondaire (utilisé pour le texte) */
+    --accent-yellow: #ffd700;  /* Jaune accent */
+    --light-gray: #f4f4f4;     /* Gris clair (arrière-plan) */
+    --dark-gray: #333333;      /* Gris foncé */
+  }
+  
+  /* Utilisation d'une police Google Font */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  
+  html{
+    height: 100%;
+  }
+  div{
+    color: var(--primary-orange);
+  }
+  body {
+    font-family: 'Montserrat', sans-serif; /* Police moderne et lisible */
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(to bottom, #f5824d, #f05a28);
+    color: var(--dark-gray);
+    text-align: center; /* Centrage général du texte */
+  }
+  
+  /* Styles généraux pour mobile */
+  .container {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+  }
+  
+  h1, h2 {
+    color: var(--primary-orange);
+    font-size: 1.8em; /* Légèrement plus grand pour les titres */
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: var(--secondary-blue);
+    font-weight: bold; /* Mettre en gras les labels */
+  }
+  h1, h2{
+    color: black; /* Noir pour les titres */
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+  a {
+      color: black; /* Noir pour les liens en bas de page */
+      text-decoration: none;
+  }
+  
+  a:hover {
+      text-decoration: underline;
+  }
+  input[type="submit"],
+  button[type="submit"] {
+    background-color: var(--dark-gray);
+    color: white;
+    padding: 12px 24px; /* Padding légèrement augmenté */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: bold; /* Mettre en gras le texte des boutons */
+    margin-top: 10px; /* Espacement en haut */
+  }
+  
+  /* Styles spécifiques à votre page */
+  .grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .let_space {
+    margin-bottom: 15px; /* Espacement légèrement augmenté */
+  }
+  
+  .file_submit {
+    padding: 10px 20px;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+  }
+  
+  /* Styles pour le tableau de l'historique */
+  .history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9em; /* Police légèrement plus grande */
+  }
+  
+  .history-table th,
+  .history-table td {
+    padding: 10px;
+    text-align: center; /* Centre le texte horizontalement */
+    border: 1px solid black;
+  }
+  
+  .history-table th {
+    background-color: transparent;
+    font-weight: bold;
+    color: var(--secondary-blue);
+  }
+  
+  /* Styles pour les messages SSE */
+  #sse-messages {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid var(--light-gray);
+    border-radius: 5px;
+    font-size: 0.9em;
+  }
+  
+  
+  a:hover {
+      text-decoration: underline;
+  }
+  
+  
+  
