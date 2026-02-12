@@ -1,98 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic-Fit QR Pass</title>
+    <link rel="stylesheet" type="text/css" href="../static/index.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav-bar">
+        <a class="brand" href="/">
+          <span>Basic-Fit</span>
+          <small>QR Pass Manager</small>
+        </a>
+        <div class="nav-links">
+          <a href="/">Accueil</a>
+          <a href="/history">Historique</a>
+          <a href="/get_boisson_image">Boissons</a>
+          <a href="/app">App</a>
+        </div>
+      </nav>
+    </header>
 
-<html> 
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
-		<link rel="stylesheet" type="text/css" href="../static/index.css"> 
+    <main class="page">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Acces instantane</p>
+          <h1>Generez des QR codes Basic-Fit.</h1>
+          <p>Suivi rapide, historique clair et generation en un clic.</p>
+        </div>
+        <div class="hero-card">
+          <h3>En 3 etapes</h3>
+          <ul>
+            <li>Remplissez le nom ou laissez aleatoire.</li>
+            <li>Generez le QR code.</li>
+            <li>Consultez l'historique.</li>
+          </ul>
+        </div>
+      </section>
 
-
-
-
-	</head>
-	
-	<body>
       {% if isWeek %}
-        <form class="grid" action="/result_week" method="POST">
-
-
-
-          <label for="name">Press To generate a 2 week qr code:</label>
-
+      <section class="card-grid">
+        <form class="card form-grid" action="/result_week" method="POST">
+          <div class="pill">Pass semaine</div>
+          <h3 class="section-title">Generateur semaine</h3>
           {% if not link %}
-           <center><input class="file_submit" type="Submit" disabled></center>
+          <button class="btn btn-primary" type="submit" disabled>Generer</button>
           {% endif %}
-            {% if link %}
-            <center>
-              <h3 style="color: blue;" class="let_space"><a href="{{ link }}">{{link}}</a></h3>
-              <img src="{{ link }}">
-            </center>
-
+          {% if link %}
+          <div class="qr-preview">
+            <a href="{{ link }}">{{ link }}</a>
+            <img src="{{ link }}" alt="QR code semaine">
+          </div>
           {% endif %}
         </form>
+      </section>
       {% endif %}
+
       {% if isDay %}
-        <form class="grid" action="/result_day" method="POST">
-
-
-
-          <label for="name">Press To generate a day pass qr code:</label>
+      <section class="card-grid">
+        <form class="card form-grid" action="/result_day" method="POST">
+          <div class="pill">Pass jour</div>
+          <h3 class="section-title">Generateur journee</h3>
           {% if not link %}
-           <center><input class="file_submit" type="Submit"></center>
+          <button class="btn btn-primary" type="submit">Generer</button>
           {% endif %}
-            {% if link %}
-            <center>
-              <h3 style="color: blue;" class="let_space"><a href="{{ link }}">{{link}}</a></h3>
-              <img src="{{ link }}">
-            </center>
-
+          {% if link %}
+          <div class="qr-preview">
+            <a href="{{ link }}">{{ link }}</a>
+            <img src="{{ link }}" alt="QR code jour">
+          </div>
           {% endif %}
         </form>
+      </section>
       {% endif %}
 
-	  {% if not isWeek and not isDay %}  <h2>Historique des Visiteurs</h2>
-        <table class="history-table">  <tr>
-                <th>ID</th>
-                <th>Timestamp</th>
-                <th>User Agent</th>
-                <th>Lien</th>
-                <th>Image QR</th>
-				<th>Durée</th></tr>
-                <th>Action</th>
+      {% if not isWeek and not isDay %}
+      <section>
+        <h2 class="section-title">Historique des visiteurs</h2>
+        <div class="table-wrap">
+          <table class="history-table">
+            <tr>
+              <th>ID</th>
+              <th>Timestamp</th>
+              <th>User Agent</th>
+              <th>Lien</th>
+              <th>QR</th>
+              <th>Duree</th>
+              <th>Action</th>
+            </tr>
             {% for data in visitor_data %}
             <tr>
-                <td>{{ data.id }}</td>
-                <td>{{ data.timestamp }}</td>
-                <td>{{ data.user_agent }}</td>
-                <td><a href="{{ data.link }}">{{ data.link }}</a></td>
-                <td>{% if data.image_tag %}
-                        <img src="{{ data.image_tag | safe }}">
-                    {% else %}
-                        Aucune image
-                    {% endif %}
-                </td>
-				<td>{{ data.duree }}</td>
-                <td>
-                {% if data.duree == "day" %}  <form action="/mark_used/{{ data.id }}" method="POST">
-                        <button type="submit">Utilisé</button>
-                    </form>
+              <td>{{ data.id }}</td>
+              <td>{{ data.timestamp }}</td>
+              <td>{{ data.user_agent }}</td>
+              <td><a href="{{ data.link }}">{{ data.link }}</a></td>
+              <td>
+                {% if data.image_tag %}
+                <img src="{{ data.image_tag | safe }}" alt="QR code">
+                {% else %}
+                Aucune image
                 {% endif %}
-                </td>
-				</tr>
+              </td>
+              <td>{{ data.duree }}</td>
+              <td>
+                {% if data.duree == "day" %}
+                <form action="/mark_used/{{ data.id }}" method="POST">
+                  <button class="btn btn-ghost" type="submit">Utilise</button>
+                </form>
+                {% endif %}
+              </td>
+            </tr>
             {% endfor %}
-        </table>
-        {% endif %}
-
-      <a href="/home">Return To Home</a>
-	  <a href="/history">Historique des liens</a>
-      <a href="/boissons">Boissons Disponible</a>
-        
-
-        
-        <br>
-        <br>
-        <br>
-
-
-    </body>
-
+          </table>
+        </div>
+      </section>
+      {% endif %}
+    </main>
+  </body>
 </html>

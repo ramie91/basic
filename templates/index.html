@@ -1,6 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
     <head>
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Basic-Fit QR Pass</title>
         <link rel="icon" href="{{ url_for('static', filename='images.ico') }}" type="image/x-icon">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="../static/index.css">
@@ -11,141 +14,160 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             function showProgressBar() {
-                // Affiche la barre de progression
                 document.getElementById("progress-bar-container").style.display = "block";
                 let progressBar = document.getElementById("progress-bar");
                 let width = 0;
-        
-                // Simule la progression de la barre pendant que la requête est traitée par le serveur
-                let interval = setInterval(function() {
+
+                let interval = setInterval(function () {
                     if (width >= 100) {
                         clearInterval(interval);
                     } else {
                         width += 2;
-                        progressBar.style.width = width + '%';
-                        progressBar.innerHTML = width + '%';
+                        progressBar.style.width = width + "%";
+                        progressBar.innerHTML = width + "%";
                     }
-                }, 350); // Ajuste cette valeur pour la vitesse de la progression
+                }, 350);
             }
         </script>
     </head>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-          <a class="navbar-brand" href="/">Basic-Fit QR-Code-Gen</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="/">Accueil</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="/history">Historique Des Visiteurs</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="/get_boisson_image">Boissons</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/app">App</a>
-                  </li>
-              </ul>
-          </div>
-      </div>
-    </nav>
-  
     <body>
-        {% if isWeek2 %}
-        <form class="grid" action="/result_week" method="POST">
-            <label for="name">Press To generate a Holland Daypass qr code:</label>
-            {% if not link %}
-            <label for="prenom">Prénom:</label>
-            <input type="text" placeholder="Vide pour aléatoire" id="prenom" name="prenom" ><br><br>
-            <label for="nom">Nom:</label>
-            <input type="text" placeholder="Vide pour aléatoire" id="nom" name="nom" ><br><br>
-            <center><input class="file_submit" type="Submit"></center>
-            {% endif %}
-            {% if link %}
-            <center>
-                <h3 style="color: blue;" class="let_space"><a href="{{ link }}">{{link}}</a></h3>
-                <img src="{{ link }}">
-            </center>
-            {% endif %}
-        </form>
-        {% endif %}
-        {% if isDay %}
-        <form class="grid" action="/result_day" method="POST" onsubmit="showProgressBar()">
-            <label for="name">Press To generate a day pass qr code:</label>
-            {% if not link %}
-            <label for="prenom">Prénom:</label>
-            <input type="text" placeholder="Vide pour aléatoire" id="prenom" name="prenom" ><br><br>
-            <label for="nom">Nom:</label>
-            <input type="text" placeholder="Vide pour aléatoire" id="nom" name="nom" ><br><br>
-            
-            <center><input class="file_submit" type="Submit"></center>
-            {% endif %}
-            {% if link %}
-            <center>
-                <h3 style="color: blue;" class="let_space"><a href="{{ link }}">{{link}}</a></h3>
-                <img src="{{ link }}">
-            </center>
-            {% endif %}
-        </form>
-        {% endif %}
-        <div id="progress-bar-container" style="display:none;">
-            <div class="progress" style="height: 30px;">
-                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 40%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-            </div>
-        </div>
-        {% if not isWeek and not isDay %}  
-        <h2>Historique des Visiteurs</h2>
-        <table class="history-table">
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Lien</th>
-                <th>Image QR</th>
-		        <th>Action</th>
-            </tr>
-            {% for data in visitor_data %}
-            <tr>
-                <td>{{ data.Nom }}</td>
-                <td>{{ data.Prenom }}</td>
-                <td><a href="{{ data.link }}">Lien</a></td>
-                <td>
-                    {% if data.image_tag %}
-                    <img src="{{ data.image_tag | safe }}" data-bs-toggle="modal" data-bs-target="#qrModal-{{ data.id }}" style="cursor: pointer; width: 100px;">
-                    <!-- Modal -->
-                    <div class="modal fade" id="qrModal-{{ data.id }}" tabindex="-1" aria-labelledby="qrModalLabel-{{ data.id }}" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="qrModalLabel-{{ data.id }}">QR Code</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <img src="{{ data.image_tag | safe }}" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
+        <header class="site-header">
+            <nav class="nav-bar">
+                <a class="brand" href="/">
+                    <span>Basic-Fit</span>
+                    <small>QR Pass Manager</small>
+                </a>
+                <div class="nav-links">
+                    <a href="/">Accueil</a>
+                    <a href="/history">Historique</a>
+                    <a href="/get_boisson_image">Boissons</a>
+                    <a href="/app">App</a>
+                </div>
+            </nav>
+        </header>
+
+        <main class="page">
+            <section class="hero fade-up">
+                <div>
+                    <p class="eyebrow">Acces instantane</p>
+                    <h1>Generez des QR codes Basic-Fit plus vite.</h1>
+                    <p>
+                        Interface claire, suivi instantane et historique des visiteurs pour garder le controle
+                        sur les pass journaliers et boissons.
+                    </p>
+                    <div class="cta-row">
+                        <a class="btn btn-primary" href="/history">Voir l'historique</a>
+                        <a class="btn btn-ghost" href="/get_boisson_image">QR boissons</a>
                     </div>
-                    {% else %}
-                    Aucune image
+                </div>
+                <div class="hero-card">
+                    <h3>En 3 etapes</h3>
+                    <ul>
+                        <li>Remplissez le nom ou laissez aleatoire.</li>
+                        <li>Generez un QR code en un clic.</li>
+                        <li>Suivez l'usage depuis l'historique.</li>
+                    </ul>
+                </div>
+            </section>
+
+            {% if isWeek2 %}
+            <section class="card-grid fade-up delay-1">
+                <form class="card form-grid" action="/result_week" method="POST">
+                    <div class="pill">Pass semaine NL</div>
+                    <h3 class="section-title">Generateur NL</h3>
+                    <p>Creer un QR code valide sur la campagne semaine.</p>
+                    {% if not link %}
+                    <input class="input-field" type="text" placeholder="Prenom (vide pour aleatoire)" id="prenom" name="prenom">
+                    <input class="input-field" type="text" placeholder="Nom (vide pour aleatoire)" id="nom" name="nom">
+                    <button class="btn btn-primary" type="submit">Generer</button>
                     {% endif %}
-                </td>
-                <td>
-                    {% if data.duree == "day" or data.duree == "day NL" %}  
-                    <form action="/mark_used/{{ data.id }}" method="POST">
-                        <button type="submit">Utilisé</button>
-                    </form>
+                    {% if link %}
+                    <div class="qr-preview">
+                        <a href="{{ link }}">{{ link }}</a>
+                        <img src="{{ link }}" alt="QR code semaine">
+                    </div>
                     {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
-        <br>
-        <br>
-        <br>
+                </form>
+            </section>
+            {% endif %}
+
+            {% if isDay %}
+            <section class="card-grid fade-up delay-1">
+                <form class="card form-grid" action="/result_day" method="POST" onsubmit="showProgressBar()">
+                    <div class="pill">Pass jour</div>
+                    <h3 class="section-title">Generateur journee</h3>
+                    <p>Generez un QR code pour une entree a la journee.</p>
+                    {% if not link %}
+                    <input class="input-field" type="text" placeholder="Prenom (vide pour aleatoire)" id="prenom" name="prenom">
+                    <input class="input-field" type="text" placeholder="Nom (vide pour aleatoire)" id="nom" name="nom">
+                    <button class="btn btn-primary" type="submit">Generer</button>
+                    {% endif %}
+                    {% if link %}
+                    <div class="qr-preview">
+                        <a href="{{ link }}">{{ link }}</a>
+                        <img src="{{ link }}" alt="QR code jour">
+                    </div>
+                    {% endif %}
+                </form>
+            </section>
+            {% endif %}
+
+            <div id="progress-bar-container" style="display:none;">
+                <div class="progress-shell">
+                    <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            </div>
+
+            {% if not isWeek and not isDay %}
+            <section class="fade-up">
+                <h2 class="section-title">Historique des visiteurs</h2>
+                <div class="table-wrap">
+                    <table class="history-table">
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Lien</th>
+                            <th>QR</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for data in visitor_data %}
+                        <tr>
+                            <td>{{ data.Nom }}</td>
+                            <td>{{ data.Prenom }}</td>
+                            <td><a href="{{ data.link }}">Lien</a></td>
+                            <td>
+                                {% if data.image_tag %}
+                                <img src="{{ data.image_tag | safe }}" data-bs-toggle="modal" data-bs-target="#qrModal-{{ data.id }}" alt="QR code" />
+                                <div class="modal fade" id="qrModal-{{ data.id }}" tabindex="-1" aria-labelledby="qrModalLabel-{{ data.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="qrModalLabel-{{ data.id }}">QR Code</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="{{ data.image_tag | safe }}" class="img-fluid" alt="QR code detail">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                Aucune image
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if data.duree == "day" or data.duree == "day NL" %}
+                                <form action="/mark_used/{{ data.id }}" method="POST">
+                                    <button class="btn btn-ghost" type="submit">Utilise</button>
+                                </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </section>
+            {% endif %}
+        </main>
     </body>
 </html>

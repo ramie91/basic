@@ -1,138 +1,170 @@
-/* Couleurs principales de Basic-Fit */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600&display=swap');
+
 :root {
-  --primary-orange: #f05a28;   /* Orange primaire */
-  --secondary-blue: #264653; /* Bleu secondaire (utilisé pour le texte) */
-  --accent-yellow: #ffd700;  /* Jaune accent */
-  --light-gray: #f4f4f4;     /* Gris clair (arrière-plan) */
-  --dark-gray: #333333;      /* Gris foncé */
+  --ink: #0f111a;
+  --cream: #f7f1e9;
+  --tangerine: #ff6a2b;
+  --amber: #ffa464;
+  --midnight: #1a2440;
+  --mist: rgba(15, 17, 26, 0.08);
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --shadow: 0 18px 45px rgba(15, 17, 26, 0.14);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
 }
 
-/* Utilisation d'une police Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-html{
-  height: 100%;
-}
-div{
-  color: var(--primary-orange);
-}
-body {
-  font-family: 'Montserrat', sans-serif; /* Police moderne et lisible */
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: linear-gradient(to bottom, #f5824d, #f05a28);
-  color: var(--dark-gray);
-  text-align: center; /* Centrage général du texte */
-}
-
-/* Styles généraux pour mobile */
-.container {
-  max-width: 90%;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2 {
-  color: var(--primary-orange);
-  font-size: 1.8em; /* Légèrement plus grand pour les titres */
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 1em;
-  color: var(--secondary-blue);
-  font-weight: bold; /* Mettre en gras les labels */
-}
-h1, h2{
-  color: black; /* Noir pour les titres */
-  text-align: center;
-  font-size: 1.8em;
-  margin-bottom: 20px;
-}
-a {
-    color: black; /* Noir pour les liens en bas de page */
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-input[type="submit"],
-button[type="submit"] {
-  background-color: var(--dark-gray);
-  color: white;
-  padding: 12px 24px; /* Padding légèrement augmenté */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  width: 100%;
+* {
   box-sizing: border-box;
-  font-weight: bold; /* Mettre en gras le texte des boutons */
-  margin-top: 10px; /* Espacement en haut */
 }
 
-/* Styles spécifiques à votre page */
-.grid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: radial-gradient(circle at 10% 10%, rgba(255, 164, 100, 0.35), transparent 45%),
+    radial-gradient(circle at 80% 20%, rgba(255, 106, 43, 0.2), transparent 40%),
+    linear-gradient(140deg, #fff7ef, #f1ece6 55%, #ece4db);
+  min-height: 100vh;
 }
 
-.let_space {
-  margin-bottom: 15px; /* Espacement légèrement augmenté */
-}
-
-.file_submit {
-  padding: 10px 20px;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 img {
   max-width: 100%;
-  height: auto;
   display: block;
-  margin: 10px auto;
 }
 
-/* Styles pour le tableau de l'historique */
+.site-header {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(16px);
+  background: rgba(247, 241, 233, 0.8);
+  border-bottom: 1px solid var(--mist);
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 8vw;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand span {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+}
+
+.brand small {
+  font-size: 0.85rem;
+  color: rgba(15, 17, 26, 0.6);
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(15, 17, 26, 0.08);
+}
+
+.page {
+  padding: 48px 8vw 80px;
+  display: grid;
+  gap: 28px;
+}
+
+.hero {
+  background: var(--midnight);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  margin: 0 0 8px;
+  letter-spacing: 0.05em;
+  font-size: clamp(2.4rem, 3.2vw, 3.6rem);
+}
+
+.hero p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--mist);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
 .history-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  font-size: 0.9em; /* Police légèrement plus grande */
+  min-width: 760px;
 }
 
 .history-table th,
 .history-table td {
-  padding: 10px;
-  text-align: center; /* Centre le texte horizontalement */
-  border: 1px solid black;
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--mist);
 }
 
 .history-table th {
-  background-color: transparent;
-  font-weight: bold;
-  color: var(--secondary-blue);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: rgba(15, 17, 26, 0.6);
 }
 
-/* Styles pour les messages SSE */
-#sse-messages {
-  margin-top: 20px;
-  padding: 10px;
-  border: 1px solid var(--light-gray);
-  border-radius: 5px;
-  font-size: 0.9em;
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--tangerine), var(--amber));
+  color: #fff;
 }
 
+.link-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
-a:hover {
-    text-decoration: underline;
+@media (max-width: 900px) {
+  .nav-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 

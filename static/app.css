@@ -1,138 +1,161 @@
-/* Couleurs principales de Basic-Fit */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600&display=swap');
+
 :root {
-    --primary-orange: #f05a28;   /* Orange primaire */
-    --secondary-blue: #264653; /* Bleu secondaire (utilisé pour le texte) */
-    --accent-yellow: #ffd700;  /* Jaune accent */
-    --light-gray: #f4f4f4;     /* Gris clair (arrière-plan) */
-    --dark-gray: #333333;      /* Gris foncé */
+  --ink: #12121c;
+  --stone: #f4efe8;
+  --tangerine: #ff6a2b;
+  --coral: #ff8d58;
+  --midnight: #1c2642;
+  --fog: rgba(18, 18, 28, 0.08);
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --shadow: 0 18px 46px rgba(18, 18, 28, 0.14);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: radial-gradient(circle at 10% 15%, rgba(255, 141, 88, 0.35), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(255, 106, 43, 0.2), transparent 45%),
+    linear-gradient(130deg, #fff6ed, #f2ebe3 60%, #ece4dc);
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(16px);
+  background: rgba(244, 239, 232, 0.8);
+  border-bottom: 1px solid var(--fog);
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 8vw;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand span {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+}
+
+.brand small {
+  font-size: 0.85rem;
+  color: rgba(18, 18, 28, 0.6);
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(18, 18, 28, 0.08);
+}
+
+.page {
+  padding: 50px 8vw 80px;
+  display: grid;
+  gap: 28px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 3.6vw, 4rem);
+  margin: 0 0 8px;
+}
+
+.hero p {
+  margin: 0;
+  color: rgba(18, 18, 28, 0.7);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--fog);
+}
+
+.input-row {
+  display: grid;
+  gap: 12px;
+}
+
+.input-field {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(18, 18, 28, 0.2);
+  font-family: var(--font-body);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--tangerine), var(--coral));
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(255, 106, 43, 0.28);
+}
+
+.qr-block {
+  display: grid;
+  gap: 12px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
   }
-  
-  /* Utilisation d'une police Google Font */
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-  
-  html{
-    height: 100%;
-  }
-  div{
-    color: var(--primary-orange);
-  }
-  body {
-    font-family: 'Montserrat', sans-serif; /* Police moderne et lisible */
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: linear-gradient(to bottom, #f5824d, #f05a28);
-    color: var(--dark-gray);
-    text-align: center; /* Centrage général du texte */
-  }
-  
-  /* Styles généraux pour mobile */
-  .container {
-    max-width: 90%;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-  }
-  
-  h1, h2 {
-    color: var(--primary-orange);
-    font-size: 1.8em; /* Légèrement plus grand pour les titres */
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 1em;
-    color: var(--secondary-blue);
-    font-weight: bold; /* Mettre en gras les labels */
-  }
-  h1, h2{
-    color: black; /* Noir pour les titres */
-    text-align: center;
-    font-size: 1.8em;
-    margin-bottom: 20px;
-  }
-  a {
-      color: black; /* Noir pour les liens en bas de page */
-      text-decoration: none;
-  }
-  
-  a:hover {
-      text-decoration: underline;
-  }
-  input[type="submit"],
-  button[type="submit"] {
-    background-color: var(--dark-gray);
-    color: white;
-    padding: 12px 24px; /* Padding légèrement augmenté */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    width: 100%;
-    box-sizing: border-box;
-    font-weight: bold; /* Mettre en gras le texte des boutons */
-    margin-top: 10px; /* Espacement en haut */
-  }
-  
-  /* Styles spécifiques à votre page */
-  .grid {
-    display: flex;
+
+  .nav-bar {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
-  
-  .let_space {
-    margin-bottom: 15px; /* Espacement légèrement augmenté */
-  }
-  
-  .file_submit {
-    padding: 10px 20px;
-  }
-  
-  img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 10px auto;
-  }
-  
-  /* Styles pour le tableau de l'historique */
-  .history-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 0.9em; /* Police légèrement plus grande */
-  }
-  
-  .history-table th,
-  .history-table td {
-    padding: 10px;
-    text-align: center; /* Centre le texte horizontalement */
-    border: 1px solid black;
-  }
-  
-  .history-table th {
-    background-color: transparent;
-    font-weight: bold;
-    color: var(--secondary-blue);
-  }
-  
-  /* Styles pour les messages SSE */
-  #sse-messages {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid var(--light-gray);
-    border-radius: 5px;
-    font-size: 0.9em;
-  }
-  
-  
-  a:hover {
-      text-decoration: underline;
-  }
-  
-  
-  
+}
+
+

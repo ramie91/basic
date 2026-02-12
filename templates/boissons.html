@@ -1,70 +1,86 @@
-<link rel="stylesheet" type="text/css" href="../static/index.css">
-<link rel="icon" href="{{ url_for('static', filename='images.ico') }}" type="image/x-icon">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">Basic-Fit QR-Code-Gen</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data>
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Accueil</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/history">Historique Des Visiteurs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/get_boisson_image">Boissons</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/app">App</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<h2>QR Codes Utilisés pour les Boissons</h2>
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Boissons</title>
+    <link rel="icon" href="{{ url_for('static', filename='images.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../static/boissons.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='apple-touch-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='apple-touch-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='apple-touch-icon-167x167.png') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav-bar">
+        <a class="brand" href="/">
+          <span>Basic-Fit</span>
+          <small>Boissons et QR</small>
+        </a>
+        <div class="nav-links">
+          <a href="/">Accueil</a>
+          <a href="/history">Historique</a>
+          <a href="/get_boisson_image">Boissons</a>
+          <a href="/app">App</a>
+        </div>
+      </nav>
+    </header>
 
-<table class="history-table">
-    <tr>
-        <th>ID</th>
-        <th>Timestamp</th>
-        <th>User Agent</th>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Lien</th>
-        <th>Image QR</th>
-        <th>Essais Restants</th>
-        <th>Action</th>
-    </tr>
-    {% for data in used_entries %}
-    <tr>
-        <td>{{ data.id }}</td>
-        <td>{{ data.timestamp }}</td>
-        <td>{{ data.user_agent }}</td>
-        <td>{{ data.Nom }}</td>
-        <td>{{ data.Prenom }}</td>
-        <td><a href="{{ data.link }}">{{ data.link }}</a></td>
-        <td>{% if data.image_tag %}
-                        <img src="{{ data.image_tag | safe }}">
-                    {% else %}
-                        Aucune image
-                    {% endif %}
-        </td>
-        <td>{{ data.essais_restants }}</td>
-        <td>
-            {% if data.essais_restants > 0 %}
+    <main class="page">
+      <section class="hero">
+        <h1>QR codes boissons</h1>
+        <p>Suivez les QR codes utilises et gardez un oeil sur les essais restants.</p>
+      </section>
+
+      <section class="card">
+        <div class="table-wrap">
+          <table class="history-table">
+            <tr>
+              <th>ID</th>
+              <th>Timestamp</th>
+              <th>User Agent</th>
+              <th>Nom</th>
+              <th>Prenom</th>
+              <th>Lien</th>
+              <th>QR</th>
+              <th>Essais</th>
+              <th>Action</th>
+            </tr>
+            {% for data in used_entries %}
+            <tr>
+              <td>{{ data.id }}</td>
+              <td>{{ data.timestamp }}</td>
+              <td>{{ data.user_agent }}</td>
+              <td>{{ data.Nom }}</td>
+              <td>{{ data.Prenom }}</td>
+              <td><a href="{{ data.link }}">{{ data.link }}</a></td>
+              <td>
+                {% if data.image_tag %}
+                <img src="{{ data.image_tag | safe }}" alt="QR code boisson">
+                {% else %}
+                Aucune image
+                {% endif %}
+              </td>
+              <td>{{ data.essais_restants }}</td>
+              <td>
+                {% if data.essais_restants > 0 %}
                 <form action="/use_drink/{{ data.id }}" method="POST">
-                    <button type="submit">Utiliser un essai</button>
+                  <button class="btn" type="submit">Utiliser un essai</button>
                 </form>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </section>
 
-
-<a href="/home">Return To Home</a>
-<a href="/history">Historique des liens</a>
-<a href="/boissons">Boissons Disponible</a>
+      <section class="link-row">
+        <a class="btn" href="/home">Retour accueil</a>
+        <a class="btn" href="/history">Historique</a>
+        <a class="btn" href="/boissons">Boissons dispo</a>
+      </section>
+    </main>
+  </body>
+</html>
