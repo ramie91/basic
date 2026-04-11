@@ -1,5 +1,11 @@
 # 🚀 Basic-Fit-QR-Code-Generator
 
+## ⚠️ Avis important (arrêt du développement)
+
+Après avoir reçu une **demande de retrait DMCA (DMCA Takedown Request)** en **janvier 2026** concernant un dépôt similaire, de la part de **Basic-Fit**, j’ai dû **arrêter le développement** de cette application.
+
+**Aucune mise à jour ne sera publiée par la suite.**
+
 Ce projet était initialement conçu comme un outil pour optimiser l'expérience Basic Fit en offrant des fonctionnalités innovantes. Voici les détails de son évolution et de ses fonctionnalités actuelles.  
 
 ---
@@ -35,4 +41,3 @@ Malgré la désactivation de la génération de Day Pass, le site propose toujou
    ```bash
    python3 basic/app.py
    ```
-
