@@ -306,6 +306,26 @@ a {
   font-weight: 600;
 }
 
+.method-patch {
+  position: relative;
+  opacity: 0.62;
+}
+
+.method-patch-label {
+  position: absolute;
+  top: -12px;
+  right: 14px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #6b7280, #374151);
+  box-shadow: 0 8px 18px rgba(55, 65, 81, 0.3);
+}
+
 .fade-up {
   animation: fadeUp 0.7s ease both;
 }

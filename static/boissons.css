@@ -154,6 +154,34 @@ img {
   color: #fff;
 }
 
+form {
+  display: grid;
+  gap: 10px;
+  max-width: 560px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(26, 36, 64, 0.22);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-field::placeholder {
+  color: rgba(15, 17, 26, 0.45);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--tangerine);
+  box-shadow: 0 0 0 3px rgba(255, 106, 43, 0.18);
+}
+
 .link-row {
   display: flex;
   gap: 12px;

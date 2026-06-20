@@ -93,7 +93,8 @@
 
             {% if isDay %}
             <section class="card-grid fade-up delay-1">
-                <form class="card form-grid" action="/result_day" method="POST" onsubmit="showProgressBar()">
+                <form class="card form-grid method-patch" action="/result_day" method="POST" onsubmit="showProgressBar()">
+                    <div class="method-patch-label">Methode Patch</div>
                     <div class="pill">Pass jour</div>
                     <h3 class="section-title">Generateur journee</h3>
                     <p>Generez un QR code pour une entree a la journee.</p>

@@ -31,11 +31,14 @@
       <section class="hero">
         <div>
           <h1>Generateur QR App</h1>
-          <p>Entrez le numero de carte pour generer un QR code app instantane.</p>
+          <p>Entrez votre numero de carte et votre Device ID pour generer un QR code app instantane.</p>
         </div>
         <div class="card">
+          <div class="input-row" style="margin-bottom: 10px;">
+            <input type="text" id="cardNumberInput" class="input-field" placeholder="Numero de carte (ex: V00347833)" aria-label="Numero de carte">
+          </div>
           <div class="input-row">
-            <input type="text" id="success" class="input-field" placeholder="Numero de carte" aria-label="Numero de Carte">
+            <input type="text" id="deviceIdInput" class="input-field" placeholder="Device ID (ex: 8d20fc96-1b0e-4982-8292-e97caed114ec)" aria-label="Device ID">
             <button id="generateBtn" class="btn" type="button">Generer</button>
           </div>
         </div>
@@ -43,27 +46,56 @@
 
       <section class="card qr-block" id="qrCodeContainer" style="display: none;">
         <h3>Votre QR code</h3>
+        <p id="qrDataDisplay" style="word-break: break-all; font-size: 0.9em; color: #666; margin: 10px 0;">Données: <strong></strong></p>
         <img id="qrCodeImage" src="" alt="QR code app">
       </section>
     </main>
 
     <script>
-      function generateQRCodeLink() {
-        var temp = document.getElementById("success").value;
-        const baseURL = "https://basic-fit-qr-code-generator.herokuapp.com/create-qr-code?data=";
-        const baseText = "GM2:" + temp + ":BPZ:";
-        const endText = ":95A5CAF2";
-        let randomPart = Date.now();
-        const finish = baseText + randomPart + endText;
-        return baseURL + finish;
+      async function generateQRCodeApp() {
+        const cardNumber = document.getElementById("cardNumberInput").value.trim();
+        const deviceId = document.getElementById("deviceIdInput").value.trim();
+        
+        if (!cardNumber) {
+          alert("Veuillez entrer un numero de carte");
+          return;
+        }
+        if (!deviceId) {
+          alert("Veuillez entrer un Device ID");
+          return;
+        }
+        
+        try {
+          const response = await fetch("/generate_qr_app", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              card_number: cardNumber,
+              device_id: deviceId
+            })
+          });
+          
+          if (!response.ok) {
+            throw new Error("Erreur lors de la génération du QR code");
+          }
+          
+          const data = await response.json();
+          const qrString = data.qr_string;
+          const qrUrl = data.qr_url;
+          
+          document.getElementById("qrDataDisplay").innerHTML = 
+            `Données: <strong>${qrString}</strong>`;
+          document.getElementById("qrCodeImage").src = qrUrl;
+          document.getElementById("qrCodeContainer").style.display = "grid";
+        } catch (error) {
+          alert("Erreur: " + error.message);
+          console.error("Erreur:", error);
+        }
       }
 
-      document.getElementById("generateBtn").addEventListener("click", () => {
-        const qrCodeLink = generateQRCodeLink();
-        const qrCodeImage = document.getElementById("qrCodeImage");
-        qrCodeImage.src = qrCodeLink;
-        document.getElementById("qrCodeContainer").style.display = "grid";
-      });
+      document.getElementById("generateBtn").addEventListener("click", generateQRCodeApp);
     </script>
   </body>
 </html>

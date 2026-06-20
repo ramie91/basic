@@ -2,3 +2,4 @@ flask
 selenium
 requests
 webdriver-manager
+python-dotenv

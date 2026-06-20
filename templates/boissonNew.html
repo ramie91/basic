@@ -29,17 +29,32 @@
     <main class="page">
       <section class="hero">
         <h1>Generer un QR boisson</h1>
-        <p>Un seul clic pour afficher un nouveau QR code de boisson.</p>
+        <p>Entrez votre Device ID, puis un numero de carte aleatoire sera genere automatiquement (non testé).</p>
       </section>
 
       <section class="card">
+        {% if error %}
+        <p style="color: #b00020;">{{ error }}</p>
+        {% endif %}
+
         {% if isGen %}
         <img src="{{ link }}" alt="Boisson QR Code" />
+        <p>Carte generee: <strong>{{ generated_card }}</strong></p>
+        <p style="word-break: break-all;">Donnees: <strong>{{ qr_string }}</strong></p>
         {% else %}
-        <p>Appuyez sur le bouton pour generer un QR code.</p>
+        <p>Renseignez votre Device ID puis cliquez pour generer un QR code.</p>
         {% endif %}
 
         <form action="/get_boisson_image" method="POST">
+          <input
+            type="text"
+            name="device_id"
+            class="input-field"
+            placeholder="Device ID (ex: 8d20fc96-1b0e-4982-8292-e97caed114ec)"
+            aria-label="Device ID"
+            required
+            style="margin-bottom: 10px;"
+          >
           <button class="btn" type="submit">Generer maintenant</button>
         </form>
       </section>
