@@ -17,12 +17,6 @@ Basic-Fit-QR-Code-Generator est un site développé pour automatiser certaines f
 ### 🎉 Fonctionnalités Initiales  
 - **Génération de Day Pass** : Pendant **2 ans**, cette fonctionnalité a permis à de nombreux utilisateurs d'accéder aux salles Basic Fit sans abonnement. Cependant, cette fonctionnalité a été **patchée** après avoir été découverte par l'équipe Basic Fit.  
 
----
-
-## 💡 Fonctionnalités Actuelles  
-
-Malgré la désactivation de la génération de Day Pass, le site propose toujours une fonctionnalité active :  
-
 - **Boissons gratuites** : Accédez à des **codes de boissons** valides pour obtenir des boissons gratuites aux distributeurs des salles Basic Fit.  
 
 ---
